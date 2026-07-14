@@ -16,6 +16,7 @@ import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as NewsRouteImport } from './routes/news'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as EquipmentRouteImport } from './routes/equipment'
+import { Route as CvRouteImport } from './routes/cv'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -54,6 +55,11 @@ const EquipmentRoute = EquipmentRouteImport.update({
   path: '/equipment',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CvRoute = CvRouteImport.update({
+  id: '/cv',
+  path: '/cv',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -68,6 +74,7 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
+  '/cv': typeof CvRoute
   '/equipment': typeof EquipmentRoute
   '/gallery': typeof GalleryRoute
   '/news': typeof NewsRoute
@@ -79,6 +86,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
+  '/cv': typeof CvRoute
   '/equipment': typeof EquipmentRoute
   '/gallery': typeof GalleryRoute
   '/news': typeof NewsRoute
@@ -91,6 +99,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
+  '/cv': typeof CvRoute
   '/equipment': typeof EquipmentRoute
   '/gallery': typeof GalleryRoute
   '/news': typeof NewsRoute
@@ -104,6 +113,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/contact'
+    | '/cv'
     | '/equipment'
     | '/gallery'
     | '/news'
@@ -115,6 +125,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/contact'
+    | '/cv'
     | '/equipment'
     | '/gallery'
     | '/news'
@@ -126,6 +137,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/contact'
+    | '/cv'
     | '/equipment'
     | '/gallery'
     | '/news'
@@ -138,6 +150,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactRoute: typeof ContactRoute
+  CvRoute: typeof CvRoute
   EquipmentRoute: typeof EquipmentRoute
   GalleryRoute: typeof GalleryRoute
   NewsRoute: typeof NewsRoute
@@ -198,6 +211,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EquipmentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cv': {
+      id: '/cv'
+      path: '/cv'
+      fullPath: '/cv'
+      preLoaderRoute: typeof CvRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -218,6 +238,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactRoute: ContactRoute,
+  CvRoute: CvRoute,
   EquipmentRoute: EquipmentRoute,
   GalleryRoute: GalleryRoute,
   NewsRoute: NewsRoute,

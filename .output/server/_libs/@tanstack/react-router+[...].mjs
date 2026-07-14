@@ -187,12 +187,21 @@ function isPromise(value) {
 	return Boolean(value && typeof value === "object" && typeof value.then === "function");
 }
 /**
-* Remove control characters that can cause open redirect vulnerabilities.
-* Characters like \r (CR) and \n (LF) can trick URL parsers into interpreting
-* paths like "/\r/evil.com" as "http://evil.com".
+* Re-encode characters that are unsafe in URL paths.
+* Includes ASCII control characters (0x00-0x1F, 0x7F) and a subset of the
+* WHATWG URL "path percent-encode set" (", <, >, `, {, }).
+*
+* Space (0x20) is intentionally excluded — decodeURI decodes %20 to space
+* and the router stores decoded spaces in location.pathname. The existing
+* encodePathLikeUrl already handles re-encoding spaces for outgoing URLs.
+*
+* These characters are decoded by decodeURI but must remain percent-encoded
+* in paths to match how upstream layers (CDNs, edge middleware, browsers)
+* interpret the URL, preventing infinite redirect loops and path mismatches.
 */
+var PATH_UNSAFE_RE = /[\x00-\x1f\x7f"<>`{}]/g;
 function sanitizePathSegment(segment) {
-	return segment.replace(/[\x00-\x1f\x7f]/g, "");
+	return segment.replace(PATH_UNSAFE_RE, (ch) => "%" + ch.charCodeAt(0).toString(16).toUpperCase().padStart(2, "0"));
 }
 function decodeSegment(segment) {
 	let decoded;
@@ -1343,6 +1352,26 @@ function isNotFound(obj) {
 	return obj?.isNotFound === true;
 }
 //#endregion
+//#region node_modules/@tanstack/router-core/dist/esm/scroll-restoration.js
+function getSafeSessionStorage() {
+	try {
+		return sessionStorage;
+	} catch {
+		return;
+	}
+}
+var storageKey = "tsr-scroll-restoration-v1_3";
+getSafeSessionStorage();
+/**
+* The default `getKey` function for `useScrollRestoration`.
+* It returns the `key` from the location state or the `href` of the location.
+*
+* The `location.href` is used as a fallback to support the use case where the location state is not available like the initial render.
+*/
+var defaultGetScrollRestorationKey = (location) => {
+	return location.state.__TSR_key || location.href;
+};
+//#endregion
 //#region node_modules/@tanstack/router-core/dist/esm/qss.js
 /**
 * Program is a reimplementation of the `qss` package:
@@ -1514,6 +1543,203 @@ function isRedirect(obj) {
 /** True if value is a redirect with a resolved `href` location. */
 function isResolvedRedirect(obj) {
 	return isRedirect(obj) && !!obj.options.href;
+}
+//#endregion
+//#region node_modules/@tanstack/router-core/dist/esm/rewrite.js
+/** Compose multiple rewrite pairs into a single in/out rewrite. */
+function composeRewrites(rewrites) {
+	return {
+		input: ({ url }) => {
+			for (const rewrite of rewrites) url = executeRewriteInput(rewrite, url);
+			return url;
+		},
+		output: ({ url }) => {
+			for (let i = rewrites.length - 1; i >= 0; i--) url = executeRewriteOutput(rewrites[i], url);
+			return url;
+		}
+	};
+}
+/** Create a rewrite pair that strips/adds a basepath on input/output. */
+function rewriteBasepath(opts) {
+	const trimmedBasepath = trimPath(opts.basepath);
+	const normalizedBasepath = `/${trimmedBasepath}`;
+	const checkBasepath = opts.caseSensitive ? normalizedBasepath : normalizedBasepath.toLowerCase();
+	const checkBasepathWithSlash = `${checkBasepath}/`;
+	return {
+		input: ({ url }) => {
+			const pathname = opts.caseSensitive ? url.pathname : url.pathname.toLowerCase();
+			if (pathname === checkBasepath) url.pathname = "/";
+			else if (pathname.startsWith(checkBasepathWithSlash)) url.pathname = url.pathname.slice(normalizedBasepath.length);
+			return url;
+		},
+		output: ({ url }) => {
+			url.pathname = joinPaths([
+				"/",
+				trimmedBasepath,
+				url.pathname
+			]);
+			return url;
+		}
+	};
+}
+/** Execute a location input rewrite if provided. */
+function executeRewriteInput(rewrite, url) {
+	const res = rewrite?.input?.({ url });
+	if (res) {
+		if (typeof res === "string") return new URL(res);
+		else if (res instanceof URL) return res;
+	}
+	return url;
+}
+/** Execute a location output rewrite if provided. */
+function executeRewriteOutput(rewrite, url) {
+	const res = rewrite?.output?.({ url });
+	if (res) {
+		if (typeof res === "string") return new URL(res);
+		else if (res instanceof URL) return res;
+	}
+	return url;
+}
+//#endregion
+//#region node_modules/@tanstack/router-core/dist/esm/stores.js
+/** SSR non-reactive createMutableStore */
+function createNonReactiveMutableStore(initialValue) {
+	let value = initialValue;
+	return {
+		get() {
+			return value;
+		},
+		set(nextOrUpdater) {
+			value = functionalUpdate(nextOrUpdater, value);
+		}
+	};
+}
+/** SSR non-reactive createReadonlyStore */
+function createNonReactiveReadonlyStore(read) {
+	return { get() {
+		return read();
+	} };
+}
+function createRouterStores(initialState, config) {
+	const { createMutableStore, createReadonlyStore, batch, init } = config;
+	const matchStores = /* @__PURE__ */ new Map();
+	const pendingMatchStores = /* @__PURE__ */ new Map();
+	const cachedMatchStores = /* @__PURE__ */ new Map();
+	const status = createMutableStore(initialState.status);
+	const loadedAt = createMutableStore(initialState.loadedAt);
+	const isLoading = createMutableStore(initialState.isLoading);
+	const isTransitioning = createMutableStore(initialState.isTransitioning);
+	const location = createMutableStore(initialState.location);
+	const resolvedLocation = createMutableStore(initialState.resolvedLocation);
+	const statusCode = createMutableStore(initialState.statusCode);
+	const redirect = createMutableStore(initialState.redirect);
+	const matchesId = createMutableStore([]);
+	const pendingIds = createMutableStore([]);
+	const cachedIds = createMutableStore([]);
+	const matches = createReadonlyStore(() => readPoolMatches(matchStores, matchesId.get()));
+	const pendingMatches = createReadonlyStore(() => readPoolMatches(pendingMatchStores, pendingIds.get()));
+	const cachedMatches = createReadonlyStore(() => readPoolMatches(cachedMatchStores, cachedIds.get()));
+	const firstId = createReadonlyStore(() => matchesId.get()[0]);
+	const hasPending = createReadonlyStore(() => matchesId.get().some((matchId) => {
+		return matchStores.get(matchId)?.get().status === "pending";
+	}));
+	const matchRouteDeps = createReadonlyStore(() => ({
+		locationHref: location.get().href,
+		resolvedLocationHref: resolvedLocation.get()?.href,
+		status: status.get()
+	}));
+	const __store = createReadonlyStore(() => ({
+		status: status.get(),
+		loadedAt: loadedAt.get(),
+		isLoading: isLoading.get(),
+		isTransitioning: isTransitioning.get(),
+		matches: matches.get(),
+		location: location.get(),
+		resolvedLocation: resolvedLocation.get(),
+		statusCode: statusCode.get(),
+		redirect: redirect.get()
+	}));
+	const matchStoreByRouteIdCache = createLRUCache(64);
+	function getRouteMatchStore(routeId) {
+		let cached = matchStoreByRouteIdCache.get(routeId);
+		if (!cached) {
+			cached = createReadonlyStore(() => {
+				const ids = matchesId.get();
+				for (const id of ids) {
+					const matchStore = matchStores.get(id);
+					if (matchStore && matchStore.routeId === routeId) return matchStore.get();
+				}
+			});
+			matchStoreByRouteIdCache.set(routeId, cached);
+		}
+		return cached;
+	}
+	const store = {
+		status,
+		loadedAt,
+		isLoading,
+		isTransitioning,
+		location,
+		resolvedLocation,
+		statusCode,
+		redirect,
+		matchesId,
+		pendingIds,
+		cachedIds,
+		matches,
+		pendingMatches,
+		cachedMatches,
+		firstId,
+		hasPending,
+		matchRouteDeps,
+		matchStores,
+		pendingMatchStores,
+		cachedMatchStores,
+		__store,
+		getRouteMatchStore,
+		setMatches,
+		setPending,
+		setCached
+	};
+	setMatches(initialState.matches);
+	init?.(store);
+	function setMatches(nextMatches) {
+		reconcileMatchPool(nextMatches, matchStores, matchesId, createMutableStore, batch);
+	}
+	function setPending(nextMatches) {
+		reconcileMatchPool(nextMatches, pendingMatchStores, pendingIds, createMutableStore, batch);
+	}
+	function setCached(nextMatches) {
+		reconcileMatchPool(nextMatches, cachedMatchStores, cachedIds, createMutableStore, batch);
+	}
+	return store;
+}
+function readPoolMatches(pool, ids) {
+	const matches = [];
+	for (const id of ids) {
+		const matchStore = pool.get(id);
+		if (matchStore) matches.push(matchStore.get());
+	}
+	return matches;
+}
+function reconcileMatchPool(nextMatches, pool, idStore, createMutableStore, batch) {
+	const nextIds = nextMatches.map((d) => d.id);
+	const nextIdSet = new Set(nextIds);
+	batch(() => {
+		for (const id of pool.keys()) if (!nextIdSet.has(id)) pool.delete(id);
+		for (const nextMatch of nextMatches) {
+			const existing = pool.get(nextMatch.id);
+			if (!existing) {
+				const matchStore = createMutableStore(nextMatch);
+				matchStore.routeId = nextMatch.routeId;
+				pool.set(nextMatch.id, matchStore);
+				continue;
+			}
+			existing.routeId = nextMatch.routeId;
+			if (existing.get() !== nextMatch) existing.set(nextMatch);
+		}
+		if (!arraysEqual(idStore.get(), nextIds)) idStore.set(nextIds);
+	});
 }
 //#endregion
 //#region node_modules/@tanstack/router-core/dist/esm/load-matches.js
@@ -2148,203 +2374,6 @@ var componentTypes = [
 	"notFoundComponent"
 ];
 //#endregion
-//#region node_modules/@tanstack/router-core/dist/esm/rewrite.js
-/** Compose multiple rewrite pairs into a single in/out rewrite. */
-function composeRewrites(rewrites) {
-	return {
-		input: ({ url }) => {
-			for (const rewrite of rewrites) url = executeRewriteInput(rewrite, url);
-			return url;
-		},
-		output: ({ url }) => {
-			for (let i = rewrites.length - 1; i >= 0; i--) url = executeRewriteOutput(rewrites[i], url);
-			return url;
-		}
-	};
-}
-/** Create a rewrite pair that strips/adds a basepath on input/output. */
-function rewriteBasepath(opts) {
-	const trimmedBasepath = trimPath(opts.basepath);
-	const normalizedBasepath = `/${trimmedBasepath}`;
-	const checkBasepath = opts.caseSensitive ? normalizedBasepath : normalizedBasepath.toLowerCase();
-	const checkBasepathWithSlash = `${checkBasepath}/`;
-	return {
-		input: ({ url }) => {
-			const pathname = opts.caseSensitive ? url.pathname : url.pathname.toLowerCase();
-			if (pathname === checkBasepath) url.pathname = "/";
-			else if (pathname.startsWith(checkBasepathWithSlash)) url.pathname = url.pathname.slice(normalizedBasepath.length);
-			return url;
-		},
-		output: ({ url }) => {
-			url.pathname = joinPaths([
-				"/",
-				trimmedBasepath,
-				url.pathname
-			]);
-			return url;
-		}
-	};
-}
-/** Execute a location input rewrite if provided. */
-function executeRewriteInput(rewrite, url) {
-	const res = rewrite?.input?.({ url });
-	if (res) {
-		if (typeof res === "string") return new URL(res);
-		else if (res instanceof URL) return res;
-	}
-	return url;
-}
-/** Execute a location output rewrite if provided. */
-function executeRewriteOutput(rewrite, url) {
-	const res = rewrite?.output?.({ url });
-	if (res) {
-		if (typeof res === "string") return new URL(res);
-		else if (res instanceof URL) return res;
-	}
-	return url;
-}
-//#endregion
-//#region node_modules/@tanstack/router-core/dist/esm/stores.js
-/** SSR non-reactive createMutableStore */
-function createNonReactiveMutableStore(initialValue) {
-	let value = initialValue;
-	return {
-		get() {
-			return value;
-		},
-		set(nextOrUpdater) {
-			value = functionalUpdate(nextOrUpdater, value);
-		}
-	};
-}
-/** SSR non-reactive createReadonlyStore */
-function createNonReactiveReadonlyStore(read) {
-	return { get() {
-		return read();
-	} };
-}
-function createRouterStores(initialState, config) {
-	const { createMutableStore, createReadonlyStore, batch, init } = config;
-	const matchStores = /* @__PURE__ */ new Map();
-	const pendingMatchStores = /* @__PURE__ */ new Map();
-	const cachedMatchStores = /* @__PURE__ */ new Map();
-	const status = createMutableStore(initialState.status);
-	const loadedAt = createMutableStore(initialState.loadedAt);
-	const isLoading = createMutableStore(initialState.isLoading);
-	const isTransitioning = createMutableStore(initialState.isTransitioning);
-	const location = createMutableStore(initialState.location);
-	const resolvedLocation = createMutableStore(initialState.resolvedLocation);
-	const statusCode = createMutableStore(initialState.statusCode);
-	const redirect = createMutableStore(initialState.redirect);
-	const matchesId = createMutableStore([]);
-	const pendingIds = createMutableStore([]);
-	const cachedIds = createMutableStore([]);
-	const matches = createReadonlyStore(() => readPoolMatches(matchStores, matchesId.get()));
-	const pendingMatches = createReadonlyStore(() => readPoolMatches(pendingMatchStores, pendingIds.get()));
-	const cachedMatches = createReadonlyStore(() => readPoolMatches(cachedMatchStores, cachedIds.get()));
-	const firstId = createReadonlyStore(() => matchesId.get()[0]);
-	const hasPending = createReadonlyStore(() => matchesId.get().some((matchId) => {
-		return matchStores.get(matchId)?.get().status === "pending";
-	}));
-	const matchRouteDeps = createReadonlyStore(() => ({
-		locationHref: location.get().href,
-		resolvedLocationHref: resolvedLocation.get()?.href,
-		status: status.get()
-	}));
-	const __store = createReadonlyStore(() => ({
-		status: status.get(),
-		loadedAt: loadedAt.get(),
-		isLoading: isLoading.get(),
-		isTransitioning: isTransitioning.get(),
-		matches: matches.get(),
-		location: location.get(),
-		resolvedLocation: resolvedLocation.get(),
-		statusCode: statusCode.get(),
-		redirect: redirect.get()
-	}));
-	const matchStoreByRouteIdCache = createLRUCache(64);
-	function getRouteMatchStore(routeId) {
-		let cached = matchStoreByRouteIdCache.get(routeId);
-		if (!cached) {
-			cached = createReadonlyStore(() => {
-				const ids = matchesId.get();
-				for (const id of ids) {
-					const matchStore = matchStores.get(id);
-					if (matchStore && matchStore.routeId === routeId) return matchStore.get();
-				}
-			});
-			matchStoreByRouteIdCache.set(routeId, cached);
-		}
-		return cached;
-	}
-	const store = {
-		status,
-		loadedAt,
-		isLoading,
-		isTransitioning,
-		location,
-		resolvedLocation,
-		statusCode,
-		redirect,
-		matchesId,
-		pendingIds,
-		cachedIds,
-		matches,
-		pendingMatches,
-		cachedMatches,
-		firstId,
-		hasPending,
-		matchRouteDeps,
-		matchStores,
-		pendingMatchStores,
-		cachedMatchStores,
-		__store,
-		getRouteMatchStore,
-		setMatches,
-		setPending,
-		setCached
-	};
-	setMatches(initialState.matches);
-	init?.(store);
-	function setMatches(nextMatches) {
-		reconcileMatchPool(nextMatches, matchStores, matchesId, createMutableStore, batch);
-	}
-	function setPending(nextMatches) {
-		reconcileMatchPool(nextMatches, pendingMatchStores, pendingIds, createMutableStore, batch);
-	}
-	function setCached(nextMatches) {
-		reconcileMatchPool(nextMatches, cachedMatchStores, cachedIds, createMutableStore, batch);
-	}
-	return store;
-}
-function readPoolMatches(pool, ids) {
-	const matches = [];
-	for (const id of ids) {
-		const matchStore = pool.get(id);
-		if (matchStore) matches.push(matchStore.get());
-	}
-	return matches;
-}
-function reconcileMatchPool(nextMatches, pool, idStore, createMutableStore, batch) {
-	const nextIds = nextMatches.map((d) => d.id);
-	const nextIdSet = new Set(nextIds);
-	batch(() => {
-		for (const id of pool.keys()) if (!nextIdSet.has(id)) pool.delete(id);
-		for (const nextMatch of nextMatches) {
-			const existing = pool.get(nextMatch.id);
-			if (!existing) {
-				const matchStore = createMutableStore(nextMatch);
-				matchStore.routeId = nextMatch.routeId;
-				pool.set(nextMatch.id, matchStore);
-				continue;
-			}
-			existing.routeId = nextMatch.routeId;
-			if (existing.get() !== nextMatch) existing.set(nextMatch);
-		}
-		if (!arraysEqual(idStore.get(), nextIds)) idStore.set(nextIds);
-	});
-}
-//#endregion
 //#region node_modules/@tanstack/router-core/dist/esm/router.js
 /**
 * Compute whether path, href or hash changed between previous and current
@@ -2361,7 +2390,6 @@ function getLocationChangeInfo(location, resolvedLocation) {
 		hashChanged: fromLocation?.hash !== toLocation.hash
 	};
 }
-var locationHistoryActions = /* @__PURE__ */ new WeakMap();
 /**
 * Core, framework-agnostic router engine that powers TanStack Router.
 *
@@ -2382,6 +2410,7 @@ var RouterCore = class {
 		this.isViewTransitionTypesSupported = void 0;
 		this.subscribers = /* @__PURE__ */ new Set();
 		this.routeBranchCache = /* @__PURE__ */ new WeakMap();
+		this.lightweightCache = /* @__PURE__ */ new WeakMap();
 		this.startTransition = (fn) => fn();
 		this.update = (newOptions) => {
 			const prevOptions = this.options;
@@ -2743,7 +2772,7 @@ var RouterCore = class {
 				hashScrollIntoView,
 				ignoreBlocker
 			});
-			Promise.resolve().then(() => {
+			queueMicrotask(() => {
 				if (this.pendingBuiltLocation === location) this.pendingBuiltLocation = void 0;
 			});
 			return commitPromise;
@@ -2765,7 +2794,7 @@ var RouterCore = class {
 					publicHref = publicHref ?? location.publicHref;
 				}
 				const reloadHref = !hrefIsUrl && publicHref ? publicHref : href;
-				if (isDangerousProtocol(reloadHref, this.protocolAllowlist)) return Promise.resolve();
+				if (isDangerousProtocol(reloadHref, this.protocolAllowlist)) return;
 				if (!rest.ignoreBlocker) {
 					const blockers = this.history.getBlockers?.() ?? [];
 					for (const blocker of blockers) if (blocker?.blockerFn) {
@@ -2773,12 +2802,12 @@ var RouterCore = class {
 							currentLocation: this.latestLocation,
 							nextLocation: this.latestLocation,
 							action: "PUSH"
-						})) return Promise.resolve();
+						})) return;
 					}
 				}
 				if (rest.replace) window.location.replace(reloadHref);
 				else window.location.href = reloadHref;
-				return Promise.resolve();
+				return;
 			}
 			return this.buildAndCommitLocation({
 				...rest,
@@ -2829,8 +2858,7 @@ var RouterCore = class {
 				this.startTransition(async () => {
 					try {
 						this.beforeLoad();
-						if (historyAction) locationHistoryActions.set(this.latestLocation, historyAction);
-						else locationHistoryActions.delete(this.latestLocation);
+						if (historyAction) this._scroll.hash = historyAction === "PUSH" || historyAction === "REPLACE";
 						const next = this.latestLocation;
 						const locationChangeInfo = getLocationChangeInfo(next, this.stores.resolvedLocation.get());
 						if (!this.stores.redirect.get()) this.emit({
@@ -3290,13 +3318,15 @@ var RouterCore = class {
 	* operations like AbortController, ControlledPromise, loaderDeps, and full match objects.
 	*/
 	matchRoutesLightweight(location) {
+		const lastStateMatchId = last(this.stores.matchesId.get());
+		const cached = this.lightweightCache.get(location);
+		if (cached && cached[0] === lastStateMatchId) return cached[1];
 		const { matchedRoutes, routeParams } = this.getMatchedRoutes(location.pathname);
 		const lastRoute = last(matchedRoutes);
 		const accumulatedSearch = { ...location.search };
 		for (const route of matchedRoutes) try {
 			Object.assign(accumulatedSearch, validateSearch(route.options.validateSearch, accumulatedSearch));
 		} catch {}
-		const lastStateMatchId = last(this.stores.matchesId.get());
 		const lastStateMatch = lastStateMatchId && this.stores.matchStores.get(lastStateMatchId)?.get();
 		const canReuseParams = lastStateMatch && lastStateMatch.routeId === lastRoute.id && lastStateMatch.pathname === location.pathname;
 		let params;
@@ -3308,12 +3338,14 @@ var RouterCore = class {
 			} catch {}
 			params = strictParams;
 		}
-		return {
+		const result = {
 			matchedRoutes,
 			fullPath: lastRoute.fullPath,
 			search: accumulatedSearch,
 			params
 		};
+		this.lightweightCache.set(location, [lastStateMatchId, result]);
+		return result;
 	}
 };
 /** Error thrown when search parameter validation fails. */
@@ -3450,26 +3482,6 @@ function extractStrictParams(route, accumulatedParams) {
 		Object.assign(accumulatedParams, result);
 	}
 }
-//#endregion
-//#region node_modules/@tanstack/router-core/dist/esm/scroll-restoration.js
-function getSafeSessionStorage() {
-	try {
-		return sessionStorage;
-	} catch {
-		return;
-	}
-}
-var storageKey = "tsr-scroll-restoration-v1_3";
-getSafeSessionStorage();
-/**
-* The default `getKey` function for `useScrollRestoration`.
-* It returns the `key` from the location state or the `href` of the location.
-*
-* The `location.href` is used as a fallback to support the use case where the location state is not available like the initial render.
-*/
-var defaultGetScrollRestorationKey = (location) => {
-	return location.state.__TSR_key || location.href;
-};
 //#endregion
 //#region node_modules/@tanstack/router-core/dist/esm/link.js
 var preloadWarning = "Error preloading route! ☝️";
@@ -4426,7 +4438,7 @@ var require_react_dom_production = /* @__PURE__ */ __commonJSMin(((exports) => {
 	exports.useFormStatus = function() {
 		return ReactSharedInternals.H.useHostTransitionStatus();
 	};
-	exports.version = "19.2.5";
+	exports.version = "19.2.7";
 }));
 //#endregion
 //#region node_modules/react-dom/index.js
@@ -9771,7 +9783,7 @@ var require_react_dom_server_edge_production = /* @__PURE__ */ __commonJSMin(((e
 	}
 	function ensureCorrectIsomorphicReactVersion() {
 		var isomorphicReactPackageVersion = React.version;
-		if ("19.2.5" !== isomorphicReactPackageVersion) throw Error("Incompatible React versions: The \"react\" and \"react-dom\" packages must have the exact same version. Instead got:\n  - react:      " + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.5\nLearn more: https://react.dev/warnings/version-mismatch"));
+		if ("19.2.7" !== isomorphicReactPackageVersion) throw Error("Incompatible React versions: The \"react\" and \"react-dom\" packages must have the exact same version. Instead got:\n  - react:      " + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.7\nLearn more: https://react.dev/warnings/version-mismatch"));
 	}
 	ensureCorrectIsomorphicReactVersion();
 	ensureCorrectIsomorphicReactVersion();
@@ -9921,7 +9933,7 @@ var require_react_dom_server_edge_production = /* @__PURE__ */ __commonJSMin(((e
 			startWork(request);
 		});
 	};
-	exports.version = "19.2.5";
+	exports.version = "19.2.7";
 }));
 //#endregion
 //#region node_modules/react-dom/cjs/react-dom-server-legacy.browser.production.js
@@ -13764,7 +13776,7 @@ var require_react_dom_server_legacy_browser_production = /* @__PURE__ */ __commo
 	exports.renderToString = function(children, options) {
 		return renderToStringImpl(children, options, !1, "The server used \"renderToString\" which does not support Suspense. If you intended for this Suspense boundary to render the fallback content on the server consider throwing an Error somewhere within the Suspense boundary. If you intended to have the server wait for the suspended component please switch to \"renderToReadableStream\" which supports Suspense on the server");
 	};
-	exports.version = "19.2.5";
+	exports.version = "19.2.7";
 }));
 //#endregion
 //#region node_modules/react-dom/server.edge.js
@@ -14402,7 +14414,7 @@ function makeMainStream(serverSsr, appStream, opts) {
 //#endregion
 //#region node_modules/isbot/index.mjs
 var import_server_edge = /* @__PURE__ */ __toESM(require_server_edge(), 1);
-var fullPattern = " daum[ /]| deusu/|(?:^|[^g])news(?!sapphire)|(?<! (?:channel/|google/))google(?!(app|/google| pixel))|(?<! cu)bots?(?:\\b|_)|(?<!(?:lib))http|(?<!cam)scan|24x7|@[a-z][\\w-]+\\.|\\(\\)|\\.com\\b|\\b\\w+\\.ai|\\bcursor/|\\bmanus-user/|\\bort/|\\bperl\\b|\\bplaywright\\b|\\bsecurityheaders\\b|\\bselenium\\b|\\btime/|\\||^[\\w \\.\\-\\(?:\\):%]+(?:/v?\\d+(?:\\.\\d+)?(?:\\.\\d{1,10})*?)?(?:,|$)|^[\\w\\-]+/[\\w]+$|^[^ ]{50,}$|^\\d+\\b|^\\W|^\\w*search\\b|^\\w+/[\\w\\(\\)]*$|^\\w+/\\d\\.\\d\\s\\([\\w@]+\\)$|^active|^ad muncher|^amaya|^apache/|^avsdevicesdk/|^azure|^biglotron|^bot|^bw/|^clamav[ /]|^claude-code/|^client/|^cobweb/|^custom|^ddg[_-]android|^discourse|^dispatch/\\d|^downcast/|^duckduckgo|^email|^facebook|^getright/|^gozilla/|^hobbit|^hotzonu|^hwcdn/|^igetter/|^jeode/|^jetty/|^jigsaw|^microsoft bits|^movabletype|^mozilla/\\d\\.\\d\\s[\\w\\.-]+$|^mozilla/\\d\\.\\d\\s\\((?:compatible;)?(?:\\s?[\\w\\d-.]+\\/\\d+\\.\\d+)?\\)$|^navermailapp|^netsurf|^offline|^openai/|^owler|^php|^postman|^python|^rank|^read|^reed|^rest|^rss|^snapchat|^space bison|^svn|^swcd |^taringa|^thumbor/|^track|^w3c|^webbandit/|^webcopier|^wget|^whatsapp|^wordpress|^xenu link sleuth|^yahoo|^yandex|^zdm/\\d|^zoom marketplace/|advisor|agent\\b|analyzer|archive|ask jeeves/teoma|audit|bit\\.ly/|bluecoat drtr|browsex|burpcollaborator|capture|catch|check\\b|checker|chrome-lighthouse|chromeframe|classifier|cloudflare|convertify|crawl|cypress/|dareboost|datanyze|dejaclick|detect|dmbrowser|download|exaleadcloudview|feed|fetcher|firephp|functionize|grab|headless|httrack|hubspot marketing grader|ibisbrowser|infrawatch|insight|inspect|iplabel|java(?!;)|library|linkcheck|mail\\.ru/|manager|measure|monitor\\b|neustar wpm|node\\b|nutch|offbyone|onetrust|optimize|pageburst|pagespeed|parser|phantomjs|pingdom|powermarks|preview|proxy|ptst[ /]\\d|retriever|rexx;|rigor|rss\\b|scrape|server|sogou|sparkler/|speedcurve|spider|splash|statuscake|supercleaner|synapse|synthetic|tools|torrent|transcoder|url|validator|virtuoso|wappalyzer|webglance|webkit2png|whatcms/|xtate/";
+var fullPattern = " daum[ /]| deusu/|(?:^|[^g])news(?!sapphire)|(?<! channel/|google/)google(?!(?:wv|app|/google| pixel))|(?<! cu)bots?(?:\\b|_)|(?<!cam)scan|(?<!lib)http|24x7|;\\s\\w+;$|@[a-z][\\w-]+\\.|\\(\\)|\\.com\\b|\\b\\w+\\.ai|\\bbw/|\\bdlc\\b|\\bort/|\\bperl\\b|\\btime/|\\||^[<\\(;]|^[\\w \\.\\-\\(?:\\):%]+(?:/v?\\d+(?:\\.\\d+)?(?:\\.\\d{1,10})*?)?(?:,|$)|^[\\w\\-]+/[\\w]+$|^[^ ]{50,}$|^\\d+\\b|^\\w*search\\b|^\\w+/[\\w\\(\\)]*$|^\\w+/\\d\\.\\d\\s\\([\\w@]+\\)$|^active|^ad muncher|^amaya|^apache/|^avsdevicesdk/|^azure|^biglotron|^blackbox exporter|^bot|^clamav[ /]|^claude-code/|^client/|^cobweb/|^custom|^ddg[_-]android|^discourse|^dispatch/\\d|^downcast/|^duckduckgo|^email|^exodusmovement|^facebook|^getright/|^gozilla/|^hobbit|^hotzonu|^hwcdn/|^igetter/|^jeode/|^jetty/|^jigsaw|^microsoft bits|^movabletype|^mozilla/\\d\\.\\d\\s[\\w\\.-]+$|^mozilla/\\d\\.\\d\\s\\((?:compatible;)?(?:\\s?[\\w\\d-.]+\\/\\d+\\.\\d+)?\\)$|^navermailapp|^netsurf|^offline|^openai/|^owler|^php|^postman|^ps_daily/|^python|^rank|^read|^reed|^remove\\.bg/|^rest|^rss|^snapchat|^sora |^space bison|^stape/|^svn|^swcd |^taringa|^thumbor/|^track|^w3c|^webbandit/|^webcopier|^wget|^whatsapp|^wordpress|^xenu link sleuth|^yahoo|^yandex|^zdm/\\d|^zoom marketplace/|abuse|advisor|agent\\b|analyzer|archive|ask jeeves/teoma|attracta|audit|bluecoat drtr|browsex|burpcollaborator|capture|catch|check\\b|checker|chrome-lighthouse|chromeframe|classifier|cloudflare|collapsify\\b|convertify|cookiehubverify/|crawl|cursor/|cypress/|dareboost|datanyze|dejaclick|detect|discovery|dmbrowser|download|exaleadcloudview|feed|fetcher|firephp|foregenix|functionize|grab|hardenize\\b|headless|hotjar|httrack|hubspot marketing grader|ibisbrowser|infrawatch|insight|inspect|iplabel|java(?!;)|library|linkcheck|linktiger|mail\\.ru/|manager|manus-user/|marketgoo/|measure|monitor\\b|neustar wpm|node\\b|nutch|offbyone|openvas|optimize|pageburst|pagespeed|parser|phantomjs|pingdom|playwright|powermarks|preview|productfinder|prospectingstudio|proxy|ptst[ /]\\d|radar|readable/|retriever|rexx;|rigor|rss\\b|scrape|securityheaders|selenium|server|silktide|sindup/|sogou|sparkler/|speedcurve|spider|splash|statuscake|supercleaner|synapse|synthetic|testlocally|tools|torrent|transcoder|upday/|url|validator|virtuoso|wappalyzer|watchtowr|webglance|webkit2png|whatcms/|xtate/";
 var naivePattern = /bot|crawl|http|lighthouse|scan|search|spider/i;
 var pattern;
 function getPattern() {
@@ -14415,9 +14427,10 @@ function getPattern() {
 	return pattern;
 }
 var isNonEmptyString = (value) => typeof value === "string" && value !== "";
-function isbot(userAgent) {
+function isBot(userAgent) {
 	return isNonEmptyString(userAgent) && getPattern().test(userAgent);
 }
+var isbot = isBot;
 //#endregion
 //#region node_modules/@tanstack/react-router/dist/esm/ssr/renderRouterToStream.js
 var noop = () => {};

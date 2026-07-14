@@ -1,8 +1,8 @@
 import { n as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
 import { h as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { c as Compass, i as MapPin, l as Car, u as ArrowRight } from "../_libs/lucide-react.mjs";
-import { n as PageLayout } from "./PageLayout-fhxhr9hD.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-U1XbvCsV.js
+import { n as PageLayout } from "./PageLayout-BKaKzdnb.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-Jj4SmMG7.js
 var import_jsx_runtime = require_jsx_runtime();
 function Home() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(PageLayout, { children: [
@@ -49,101 +49,39 @@ function Home() {
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "h-1 w-full bg-accent" })
 			]
 		}),
-		/* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
-			className: "container-academic py-16 md:py-20",
-			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "grid gap-8 md:grid-cols-3",
+		/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
+			className: "container-academic py-16 md:py-18",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "mb-8",
 				children: [
-					{
-						title: "Coastal Dynamics",
-						body: "Monitoring shoreline change, coastal vulnerability, and environmental transformation."
-					},
-					{
-						title: "Plant Health & Disease",
-						body: "Using spectral and spatial data to assess vegetation stress and disease patterns."
-					},
-					{
-						title: "Precision Agriculture",
-						body: "Supporting field-scale analysis for crop monitoring and resource optimization."
-					},
-					{
-						title: "Morphological Analysis",
-						body: "Studying landscape form and terrain structure through geospatial processing."
-					},
-					{
-						title: "Wetland Restoration",
-						body: "Tracking wetland change, erosion, and restoration progress over time."
-					},
-					{
-						title: "Image Processing",
-						body: "Developing feature extraction workflows for remote sensing and geospatial datasets."
-					}
-				].map((f) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "border-l-4 border-accent bg-card p-6 shadow-sm ring-1 ring-border",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-						className: "font-serif text-xl font-bold text-primary",
-						children: f.title
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						className: "mt-2 text-sm leading-relaxed text-muted-foreground",
-						children: f.body
-					})]
-				}, f.title))
-			})
-		}),
-		/* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
-			className: "bg-secondary/50 py-16 md:py-20",
-			children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "container-academic",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "mb-10",
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground",
-							children: "Research & Infrastructure"
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
-							className: "mt-2 font-serif text-3xl font-bold text-primary md:text-4xl",
-							children: "Applied geospatial research for environment and development"
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "mt-4 h-1 w-12 bg-accent" })
-					]
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "grid gap-6 md:grid-cols-2",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("article", {
-						className: "rounded-md bg-card p-7 shadow-sm ring-1 ring-border",
-						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "text-xs font-semibold uppercase tracking-wider text-accent-foreground/70",
-								children: "Research Focus"
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-								className: "mt-2 font-serif text-2xl font-bold text-primary",
-								children: "Remote sensing for environmental monitoring"
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "mt-3 text-sm leading-relaxed text-muted-foreground",
-								children: "The lab develops analytical workflows for coastal dynamics, wetland change, vegetation stress, and landscape transformation using satellite and UAV data."
-							})
-						]
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("article", {
-						className: "rounded-md bg-card p-7 shadow-sm ring-1 ring-border",
-						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "text-xs font-semibold uppercase tracking-wider text-accent-foreground/70",
-								children: "Equipment"
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-								className: "mt-2 font-serif text-2xl font-bold text-primary",
-								children: "Surveying, UAV, LiDAR, and multispectral systems"
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "mt-3 text-sm leading-relaxed text-muted-foreground",
-								children: "The laboratory combines field instruments with thermal and multispectral cameras to support fine-scale mapping, monitoring, and analysis across diverse environments."
-							})
-						]
-					})]
-				})]
-			})
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground",
+						children: "Research Interests"
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+						className: "mt-2 font-serif text-3xl font-bold text-primary md:text-4xl",
+						children: "Core themes in environmental geospatial research"
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "mt-4 h-1 w-12 bg-accent" })
+				]
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "grid gap-4 md:grid-cols-2",
+				children: [
+					"Drone-based remote sensing and geospatial applications",
+					"Satellite-based remote sensing and geospatial applications",
+					"Spatial and land-use planning",
+					"Coastal geomorphology",
+					"Fluvial geomorphology",
+					"Climate change and disaster risk reduction",
+					"Forest ecology"
+				].map((interest) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "rounded-md border border-border bg-card p-4 shadow-sm",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "text-sm leading-relaxed text-foreground",
+						children: interest
+					})
+				}, interest))
+			})]
 		}),
 		/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
 			className: "container-academic py-16 md:py-20",

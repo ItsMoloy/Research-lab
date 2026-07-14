@@ -15,101 +15,115 @@ globalThis.__nitro_vite_envs__ = services;
 //#endregion
 //#region #nitro/virtual/public-assets-data
 var public_assets_data_default = {
-	"/assets/PageLayout-D6HpxDlT.js": {
+	"/assets/PageLayout-C8gCHTIk.js": {
 		"type": "text/javascript; charset=utf-8",
-		"etag": "\"24ef-keirwX7oMRpuBrq9DIwvrRXiXUY\"",
-		"mtime": "2026-07-14T22:59:07.458Z",
-		"size": 9455,
-		"path": "../public/assets/PageLayout-D6HpxDlT.js"
+		"etag": "\"2510-qpZ5sLE/A2FbJyBUs64sVDEEgtQ\"",
+		"mtime": "2026-07-14T23:57:50.247Z",
+		"size": 9488,
+		"path": "../public/assets/PageLayout-C8gCHTIk.js"
 	},
-	"/assets/contact-C7IriOLf.js": {
+	"/assets/contact-rtGWveMn.js": {
 		"type": "text/javascript; charset=utf-8",
-		"etag": "\"eb8-K1vt4q8rn9QB8y31WO2L8utFTb0\"",
-		"mtime": "2026-07-14T22:59:07.459Z",
+		"etag": "\"eb8-jgI/64H6+7xT5ENEPbnftm+WX7g\"",
+		"mtime": "2026-07-14T23:57:50.247Z",
 		"size": 3768,
-		"path": "../public/assets/contact-C7IriOLf.js"
+		"path": "../public/assets/contact-rtGWveMn.js"
 	},
-	"/assets/equipment-B9UjX5Fu.js": {
+	"/assets/cv-Bscw2Mze.js": {
 		"type": "text/javascript; charset=utf-8",
-		"etag": "\"5d6-SwQ1Yo2i1KuHWakwGvMuJ2wujlM\"",
-		"mtime": "2026-07-14T22:59:07.460Z",
+		"etag": "\"16eb-16vf4ZNP9jLcFBqfdRpQdaZ3GIM\"",
+		"mtime": "2026-07-14T23:57:50.247Z",
+		"size": 5867,
+		"path": "../public/assets/cv-Bscw2Mze.js"
+	},
+	"/assets/equipment-Cy37PbLA.js": {
+		"type": "text/javascript; charset=utf-8",
+		"etag": "\"5d6-ZiPqrKG7niwOSmsvNQY1nolsn3A\"",
+		"mtime": "2026-07-14T23:57:50.247Z",
 		"size": 1494,
-		"path": "../public/assets/equipment-B9UjX5Fu.js"
+		"path": "../public/assets/equipment-Cy37PbLA.js"
 	},
-	"/assets/gallery-DmtGf4Dz.js": {
+	"/assets/faculty-Cx8iTTCq.js": {
 		"type": "text/javascript; charset=utf-8",
-		"etag": "\"4fa-uT/Ks72uUFSIe4YHrRYLS6q0gNg\"",
-		"mtime": "2026-07-14T22:59:07.460Z",
-		"size": 1274,
-		"path": "../public/assets/gallery-DmtGf4Dz.js"
+		"etag": "\"3d22-2V4lHWaY4wxYtgEoabxABqNczpI\"",
+		"mtime": "2026-07-14T23:57:50.247Z",
+		"size": 15650,
+		"path": "../public/assets/faculty-Cx8iTTCq.js"
 	},
-	"/assets/index-DqJbJgXR.js": {
+	"/assets/gallery-Bque8OpK.js": {
 		"type": "text/javascript; charset=utf-8",
-		"etag": "\"54c47-MtZumAcbggMhN53TVFVSqkSdFoQ\"",
-		"mtime": "2026-07-14T22:59:07.457Z",
-		"size": 347207,
-		"path": "../public/assets/index-DqJbJgXR.js"
+		"etag": "\"24e-i+HOSRo5Lnb9gotDJaNNdGG6ngQ\"",
+		"mtime": "2026-07-14T23:57:50.247Z",
+		"size": 590,
+		"path": "../public/assets/gallery-Bque8OpK.js"
 	},
-	"/assets/news-ephqJBnu.js": {
+	"/assets/index-B9Vixz_5.js": {
 		"type": "text/javascript; charset=utf-8",
-		"etag": "\"77a-GpxCD57Cv+trJZqoPEiSLbdug/Q\"",
-		"mtime": "2026-07-14T22:59:07.460Z",
-		"size": 1914,
-		"path": "../public/assets/news-ephqJBnu.js"
+		"etag": "\"54ec0-ph3m4BKRE1LJ/WfDwNIZh49cmWM\"",
+		"mtime": "2026-07-14T23:57:50.245Z",
+		"size": 347840,
+		"path": "../public/assets/index-B9Vixz_5.js"
 	},
-	"/assets/projects-DRHwBAVW.js": {
+	"/assets/news-IYjnCOGT.js": {
 		"type": "text/javascript; charset=utf-8",
-		"etag": "\"7fa-DkB6L4Fsqdjm9LisSkney08I6CM\"",
-		"mtime": "2026-07-14T22:59:07.460Z",
+		"etag": "\"241-vuXujtX53SF5iNjpoU82q4ab/78\"",
+		"mtime": "2026-07-14T23:57:50.248Z",
+		"size": 577,
+		"path": "../public/assets/news-IYjnCOGT.js"
+	},
+	"/assets/projects-BH_NgdmS.js": {
+		"type": "text/javascript; charset=utf-8",
+		"etag": "\"7fa-UBa4GT7JvRfnrBEaZOlrAGIXjYU\"",
+		"mtime": "2026-07-14T23:57:50.248Z",
 		"size": 2042,
-		"path": "../public/assets/projects-DRHwBAVW.js"
+		"path": "../public/assets/projects-BH_NgdmS.js"
 	},
-	"/assets/publications-D25mqLE_.js": {
+	"/assets/publications-CB_FjYEK.js": {
 		"type": "text/javascript; charset=utf-8",
-		"etag": "\"ebe-4vqU5kHziVeoOd2kPrMdWz+MyCE\"",
-		"mtime": "2026-07-14T22:59:07.460Z",
-		"size": 3774,
-		"path": "../public/assets/publications-D25mqLE_.js"
+		"etag": "\"2128-xjaNsK1y6JXlE1ZsjfeMSUkvryM\"",
+		"mtime": "2026-07-14T23:57:50.248Z",
+		"size": 8488,
+		"path": "../public/assets/publications-CB_FjYEK.js"
 	},
-	"/assets/routes-DlnUq-rd.js": {
+	"/assets/routes-BgdUh0jn.js": {
 		"type": "text/javascript; charset=utf-8",
-		"etag": "\"2697-tQN799vXHoLyGy0/rdAzC/vvD7c\"",
-		"mtime": "2026-07-14T22:59:07.460Z",
-		"size": 9879,
-		"path": "../public/assets/routes-DlnUq-rd.js"
+		"etag": "\"1eb7-kZ2ovHzfoPjMyuoeKtEvSmttYY4\"",
+		"mtime": "2026-07-14T23:57:50.248Z",
+		"size": 7863,
+		"path": "../public/assets/routes-BgdUh0jn.js"
 	},
-	"/assets/styles-BSGEFzbb.css": {
+	"/assets/styles-DeSv8sWI.css": {
 		"type": "text/css; charset=utf-8",
-		"etag": "\"14cba-DDS7qg6PFp29UHoR5ymCZtCKMCc\"",
-		"mtime": "2026-07-14T22:59:07.460Z",
-		"size": 85178,
-		"path": "../public/assets/styles-BSGEFzbb.css"
+		"etag": "\"13abf-JbU0LrSIsbXRSk/hnqCp1U5HOjY\"",
+		"mtime": "2026-07-14T23:57:50.248Z",
+		"size": 80575,
+		"path": "../public/assets/styles-DeSv8sWI.css"
 	},
-	"/assets/teaching-Bc_VPfmq.js": {
+	"/assets/teaching-DTY4aEk6.js": {
 		"type": "text/javascript; charset=utf-8",
-		"etag": "\"d0a-SO6OXRcYbAnrpdJ3hD0AeWU06kY\"",
-		"mtime": "2026-07-14T22:59:07.460Z",
-		"size": 3338,
-		"path": "../public/assets/teaching-Bc_VPfmq.js"
+		"etag": "\"1989-rbLE8eVW13p0/GzLXDHKZg8qKZo\"",
+		"mtime": "2026-07-14T23:57:50.248Z",
+		"size": 6537,
+		"path": "../public/assets/teaching-DTY4aEk6.js"
 	},
-	"/assets/team-BAnl1csE.js": {
+	"/assets/team-C6CzPduX.js": {
 		"type": "text/javascript; charset=utf-8",
-		"etag": "\"281a-x0FyGhO4bFGsFglrS58BOlWzpz8\"",
-		"mtime": "2026-07-14T22:59:07.460Z",
-		"size": 10266,
-		"path": "../public/assets/team-BAnl1csE.js"
+		"etag": "\"a07-cY4mr5LuPQbG17hc0RFCIxi4KeQ\"",
+		"mtime": "2026-07-14T23:57:50.248Z",
+		"size": 2567,
+		"path": "../public/assets/team-C6CzPduX.js"
 	},
 	"/favicon.ico": {
 		"type": "image/vnd.microsoft.icon",
 		"etag": "\"4f95-3RXc3p2mhEAs1WBwaIvE0Y0uu0Y\"",
-		"mtime": "2026-07-14T22:59:08.662Z",
+		"mtime": "2026-07-14T23:57:51.810Z",
 		"size": 20373,
 		"path": "../public/favicon.ico"
 	},
 	"/faculty.jpg": {
 		"type": "image/jpeg",
 		"etag": "\"17b29-yqsdndZq+wuyZi4z9bxbleUJKuE\"",
-		"mtime": "2026-07-14T22:59:08.662Z",
+		"mtime": "2026-07-14T23:57:51.810Z",
 		"size": 97065,
 		"path": "../public/faculty.jpg"
 	}

@@ -69,7 +69,7 @@ export function SiteFooter() {
               <Facebook className="h-4 w-4" />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/md-mahin-uddin-8515a1180/"
               target="_blank"
               rel="noreferrer"
               aria-label="LinkedIn"

@@ -102,6 +102,73 @@ const courses = [
   },
 ];
 
+const studentSupervision = [
+  {
+    name: "Fariha Farhat Ahmed",
+    reg: "2020135017",
+    status: "Ongoing",
+    title: "Assessing the Coral Biodiversity of Saint Martin’s Island through UAV-based Remote Sensing",
+    degree: "B. Sc. Project",
+    year: "2025",
+  },
+  {
+    name: "Amisha Das Roy",
+    reg: "2020135006",
+    status: "Ongoing",
+    title: "Individual Tree Crown (ITC) Identification: A Machine Learning Framework for Species-Level Mapping using UAV-RGB Imagery",
+    degree: "B. Sc. Project",
+    year: "2025",
+  },
+  {
+    name: "Sk. Tanjim Jaman Supto",
+    reg: "2020135071",
+    status: "Ongoing",
+    title: "Mapping Microclimatic Blocks to Mitigate Urban Heat Stress: Evidence-Based Planning Solutions for a Divisional City in Bangladesh",
+    degree: "B. Sc. Project",
+    year: "2025",
+  },
+  {
+    name: "Tanusree Debnath",
+    reg: "2020135034",
+    status: "Ongoing",
+    title: "Comparative Analysis of Microplastic Sequestration in Terrestrial and Freshwater Swamp Forests: A Case Study of Lawachara and Ratargul, Bangladesh",
+    degree: "B. Sc. Project",
+    year: "2025",
+  },
+  {
+    name: "Bedatraye Chanda",
+    reg: "2020135066",
+    status: "Ongoing",
+    title: "Historical Cyclone Dynamics and Socio-Ecological Vulnerability: A Retrospective Study of Coastal Bangladesh",
+    degree: "B. Sc. Project",
+    year: "2025",
+  },
+  {
+    name: "Tasnim Hasan Khan",
+    reg: "2022125015",
+    status: "Completed",
+    title: "Mud Crab Aquaculture in the Coastal Regions of Bangladesh: Patterns and Opportunities",
+    degree: "M. Sc. Project",
+    year: "2024",
+  },
+  {
+    name: "Tanjia Jahan Moni",
+    reg: "2019135155",
+    status: "Completed",
+    title: "Geography of Recreation: Economic Valuation Using Travel Cost Method and Pattern Analysis in Lawachara National Park, Bangladesh",
+    degree: "B. Sc. Project",
+    year: "2024",
+  },
+  {
+    name: "Md. Tanzilur Rahman Meraz",
+    reg: "2018135137",
+    status: "Completed",
+    title: "Detailed Land Use Map Preparation and Tree Vegetation Survey of Shahjalal University of Science and Technology Campus",
+    degree: "B. Sc. Project",
+    year: "2024",
+  },
+];
+
 function TeachingPage() {
   return (
     <PageLayout>
@@ -145,6 +212,45 @@ function TeachingPage() {
               ))}
             </tbody>
           </table>
+        </div>
+      </section>
+
+      <section className="container-academic pb-16">
+        <div className="mb-6">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">
+            Student Supervision
+          </p>
+          <h2 className="mt-2 text-2xl font-semibold text-foreground">
+            Supervised undergraduate and graduate research projects
+          </h2>
+        </div>
+
+        <div className="space-y-3">
+          {studentSupervision.map((item) => (
+            <article
+              key={item.reg}
+              className="rounded-lg border border-border bg-card/70 p-5 shadow-sm transition-colors hover:border-primary/40 hover:bg-card"
+            >
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <h3 className="font-semibold text-foreground">{item.name}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">Reg: {item.reg}</p>
+                </div>
+                <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                  {item.status}
+                </span>
+              </div>
+              <p className="mt-3 text-sm leading-6 text-foreground">{item.title}</p>
+              <div className="mt-3 flex flex-wrap gap-2 text-xs text-muted-foreground">
+                <span className="rounded-full bg-secondary/70 px-2.5 py-1">
+                  {item.degree}
+                </span>
+                <span className="rounded-full bg-secondary/70 px-2.5 py-1">
+                  {item.year}
+                </span>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
     </PageLayout>

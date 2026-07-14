@@ -2,7 +2,7 @@ import { n as __toESM } from "../_runtime.mjs";
 import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
 import { h as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { a as Mail, i as MapPin, n as Phone, o as Linkedin, r as Menu, s as Facebook, t as X } from "../_libs/lucide-react.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/PageLayout-fhxhr9hD.js
+//#region node_modules/.nitro/vite/services/ssr/assets/PageLayout-BKaKzdnb.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var navItems = [
@@ -215,7 +215,7 @@ function SiteFooter() {
 							className: "grid h-9 w-9 place-items-center rounded-md border border-parchment/20 text-parchment/80 hover:border-accent hover:text-accent",
 							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Facebook, { className: "h-4 w-4" })
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-							href: "https://linkedin.com",
+							href: "https://www.linkedin.com/in/md-mahin-uddin-8515a1180/",
 							target: "_blank",
 							rel: "noreferrer",
 							"aria-label": "LinkedIn",

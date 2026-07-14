@@ -50,90 +50,31 @@ function Home() {
         <div className="h-1 w-full bg-accent" />
       </section>
 
-      {/* Focus areas */}
-      <section className="container-academic py-16 md:py-20">
-        <div className="grid gap-8 md:grid-cols-3">
+      {/* Research interests */}
+      <section className="container-academic py-16 md:py-18">
+        <div className="mb-8">
+          <div className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+            Research Interests
+          </div>
+          <h2 className="mt-2 font-serif text-3xl font-bold text-primary md:text-4xl">
+            Core themes in environmental geospatial research
+          </h2>
+          <div className="mt-4 h-1 w-12 bg-accent" />
+        </div>
+        <div className="grid gap-4 md:grid-cols-2">
           {[
-            {
-              title: "Coastal Dynamics",
-              body: "Monitoring shoreline change, coastal vulnerability, and environmental transformation.",
-            },
-            {
-              title: "Plant Health & Disease",
-              body: "Using spectral and spatial data to assess vegetation stress and disease patterns.",
-            },
-            {
-              title: "Precision Agriculture",
-              body: "Supporting field-scale analysis for crop monitoring and resource optimization.",
-            },
-            {
-              title: "Morphological Analysis",
-              body: "Studying landscape form and terrain structure through geospatial processing.",
-            },
-            {
-              title: "Wetland Restoration",
-              body: "Tracking wetland change, erosion, and restoration progress over time.",
-            },
-            {
-              title: "Image Processing",
-              body: "Developing feature extraction workflows for remote sensing and geospatial datasets.",
-            },
-          ].map((f) => (
-            <div
-              key={f.title}
-              className="border-l-4 border-accent bg-card p-6 shadow-sm ring-1 ring-border"
-            >
-              <h3 className="font-serif text-xl font-bold text-primary">
-                {f.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {f.body}
-              </p>
+            "Drone-based remote sensing and geospatial applications",
+            "Satellite-based remote sensing and geospatial applications",
+            "Spatial and land-use planning",
+            "Coastal geomorphology",
+            "Fluvial geomorphology",
+            "Climate change and disaster risk reduction",
+            "Forest ecology",
+          ].map((interest) => (
+            <div key={interest} className="rounded-md border border-border bg-card p-4 shadow-sm">
+              <p className="text-sm leading-relaxed text-foreground">{interest}</p>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* Research strengths */}
-      <section className="bg-secondary/50 py-16 md:py-20">
-        <div className="container-academic">
-          <div className="mb-10">
-            <div className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-              Research &amp; Infrastructure
-            </div>
-            <h2 className="mt-2 font-serif text-3xl font-bold text-primary md:text-4xl">
-              Applied geospatial research for environment and development
-            </h2>
-            <div className="mt-4 h-1 w-12 bg-accent" />
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2">
-            <article className="rounded-md bg-card p-7 shadow-sm ring-1 ring-border">
-              <div className="text-xs font-semibold uppercase tracking-wider text-accent-foreground/70">
-                Research Focus
-              </div>
-              <h3 className="mt-2 font-serif text-2xl font-bold text-primary">
-                Remote sensing for environmental monitoring
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                The lab develops analytical workflows for coastal dynamics, wetland change,
-                vegetation stress, and landscape transformation using satellite and UAV data.
-              </p>
-            </article>
-
-            <article className="rounded-md bg-card p-7 shadow-sm ring-1 ring-border">
-              <div className="text-xs font-semibold uppercase tracking-wider text-accent-foreground/70">
-                Equipment
-              </div>
-              <h3 className="mt-2 font-serif text-2xl font-bold text-primary">
-                Surveying, UAV, LiDAR, and multispectral systems
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                The laboratory combines field instruments with thermal and multispectral cameras
-                to support fine-scale mapping, monitoring, and analysis across diverse environments.
-              </p>
-            </article>
-          </div>
         </div>
       </section>
 

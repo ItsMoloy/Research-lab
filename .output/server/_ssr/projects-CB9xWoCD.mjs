@@ -1,6 +1,6 @@
 import { n as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
-import { n as PageLayout, t as PageHeader } from "./PageLayout-fhxhr9hD.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/projects-zal8bQxy.js
+import { n as PageLayout, t as PageHeader } from "./PageLayout-BKaKzdnb.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/projects-CB9xWoCD.js
 var import_jsx_runtime = require_jsx_runtime();
 var projects = [
 	{

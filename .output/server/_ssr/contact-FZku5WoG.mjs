@@ -1,7 +1,7 @@
 import { n as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
 import { a as Mail, i as MapPin, n as Phone } from "../_libs/lucide-react.mjs";
-import { n as PageLayout, t as PageHeader } from "./PageLayout-fhxhr9hD.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/contact-BozxMgEG.js
+import { n as PageLayout, t as PageHeader } from "./PageLayout-BKaKzdnb.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/contact-FZku5WoG.js
 var import_jsx_runtime = require_jsx_runtime();
 function ContactPage() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(PageLayout, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(PageHeader, {
