@@ -20,14 +20,19 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
-      <div className="container-academic flex h-12 items-center justify-between gap-4">
-        <Link to="/" className="flex min-w-0 items-center gap-2">
-          <div className="grid h-7 w-auto px-2 shrink-0 place-items-center rounded-sm bg-primary text-primary-foreground shadow-sm">
-            <span className="font-serif text-[12px] font-bold">ATLAS</span>
-          </div>
+      <div className="container-academic flex h-20 items-center justify-between gap-4">
+        <Link to="/" className="flex min-w-0 items-center gap-3">
+          <img
+            src="/Atlas.jpeg"
+            alt="ATLAS lab logo"
+            className="h-12 w-12 rounded-lg border border-border/60 bg-white object-contain p-1 shadow-sm"
+          />
           <div className="min-w-0 leading-tight">
-            <div className="truncate font-serif text-base font-bold text-primary">
+            <div className="truncate font-serif text-lg font-bold tracking-[0.08em] text-primary md:text-xl">
               ATLAS
+            </div>
+            <div className="truncate text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+              Geospatial Research Lab
             </div>
           </div>
         </Link>
@@ -37,10 +42,10 @@ export function SiteHeader() {
             <Link
               key={item.to}
               to={item.to}
-              className="rounded-md px-3 py-1.5 text-sm font-medium text-foreground/80 transition-colors hover:bg-secondary hover:text-primary"
+              className="rounded-md px-3 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-secondary hover:text-primary"
               activeProps={{
                 className:
-                  "rounded-md px-3 py-1.5 text-sm font-semibold text-primary bg-secondary",
+                  "rounded-md px-3 py-2 text-sm font-semibold text-primary bg-secondary",
               }}
               activeOptions={{ exact: item.to === "/" }}
             >

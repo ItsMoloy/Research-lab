@@ -19,21 +19,6 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
-      {/* University strip */}
-      <div className="bg-navy-deep text-parchment">
-        <div className="container-academic flex h-8 items-center justify-between text-xs tracking-wide">
-          <span className="opacity-90">SUST · Department of Geography and Environment</span>
-          <a
-            href="https://www.sust.edu"
-            className="opacity-80 hover:opacity-100"
-            target="_blank"
-            rel="noreferrer"
-          >
-            sust.edu
-          </a>
-        </div>
-      </div>
-
       <div className="container-academic flex h-20 items-center justify-between gap-4">
         <Link to="/" className="flex min-w-0 items-center gap-3">
           <div className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-primary text-primary-foreground shadow-sm">

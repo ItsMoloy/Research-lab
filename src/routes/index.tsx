@@ -1,5 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { PageLayout } from "@/components/site/PageLayout";
+import { createFileRoute } from "@tanstack/react-router";
+import { PageHeader, PageLayout } from "@/components/site/PageLayout";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -8,10 +8,13 @@ export const Route = createFileRoute("/")({
 function Home() {
   return (
     <PageLayout>
-      <section className="relative flex min-h-[45vh] items-center justify-center bg-[#4F4F4F] text-white">
-        <h1 className="font-serif text-5xl font-bold md:text-7xl">
-          ATLAS Lab
-        </h1>
+      <PageHeader title="ATLAS Lab" />
+      <section className="container-academic py-16">
+        <div className="rounded-md border border-border bg-card p-8 text-center shadow-sm">
+          <p className="text-base font-medium text-foreground">
+            No description yet.
+          </p>
+        </div>
       </section>
     </PageLayout>
   );
