@@ -1,4 +1,4 @@
-//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-C-f68jh0.js
+//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-DUIN3Jrf.js
 var tsrStartManifest = () => ({ routes: {
 	__root__: {
 		filePath: "/home/moloy-banerjee/Downloads/Research/src/routes/__root.tsx",
@@ -15,73 +15,73 @@ var tsrStartManifest = () => ({ routes: {
 			"/teaching",
 			"/team"
 		],
-		preloads: ["/assets/index-DjRoRu8j.js"],
+		preloads: ["/assets/index-MDEo1C3k.js"],
 		scripts: [{ attrs: {
 			type: "module",
 			async: !0,
-			src: "/assets/index-DjRoRu8j.js"
+			src: "/assets/index-MDEo1C3k.js"
 		} }]
 	},
 	"/": {
 		filePath: "/home/moloy-banerjee/Downloads/Research/src/routes/index.tsx",
 		children: void 0,
-		preloads: ["/assets/routes-DXpq9SL0.js", "/assets/PageLayout-ol-OLxM7.js"]
+		preloads: ["/assets/routes-_bg_B1Tk.js", "/assets/PageLayout-CRGnFUb0.js"]
 	},
 	"/affiliates": {
 		filePath: "/home/moloy-banerjee/Downloads/Research/src/routes/affiliates.tsx",
 		children: void 0,
-		preloads: ["/assets/affiliates-6iDsLZB0.js", "/assets/PageLayout-ol-OLxM7.js"]
+		preloads: ["/assets/affiliates-Mb88DbUq.js", "/assets/PageLayout-CRGnFUb0.js"]
 	},
 	"/contact": {
 		filePath: "/home/moloy-banerjee/Downloads/Research/src/routes/contact.tsx",
 		children: void 0,
-		preloads: ["/assets/contact-D2bE7_Ay.js", "/assets/PageLayout-ol-OLxM7.js"]
+		preloads: ["/assets/contact-Bal8h18j.js", "/assets/PageLayout-CRGnFUb0.js"]
 	},
 	"/cv": {
 		filePath: "/home/moloy-banerjee/Downloads/Research/src/routes/cv.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/cv-jRC98Hah.js",
-			"/assets/PageLayout-ol-OLxM7.js",
+			"/assets/cv-UCrMFJzp.js",
+			"/assets/PageLayout-CRGnFUb0.js",
 			"/assets/faculty-C5jN3CNl.js"
 		]
 	},
 	"/equipment": {
 		filePath: "/home/moloy-banerjee/Downloads/Research/src/routes/equipment.tsx",
 		children: void 0,
-		preloads: ["/assets/equipment-BshKx2sC.js", "/assets/PageLayout-ol-OLxM7.js"]
+		preloads: ["/assets/equipment-IXRLXNSA.js", "/assets/PageLayout-CRGnFUb0.js"]
 	},
 	"/gallery": {
 		filePath: "/home/moloy-banerjee/Downloads/Research/src/routes/gallery.tsx",
 		children: void 0,
-		preloads: ["/assets/gallery-C9nC5ylB.js", "/assets/PageLayout-ol-OLxM7.js"]
+		preloads: ["/assets/gallery-B6WYa7fe.js", "/assets/PageLayout-CRGnFUb0.js"]
 	},
 	"/news": {
 		filePath: "/home/moloy-banerjee/Downloads/Research/src/routes/news.tsx",
 		children: void 0,
-		preloads: ["/assets/news-ByCrluSM.js", "/assets/PageLayout-ol-OLxM7.js"]
+		preloads: ["/assets/news-CLtjP3lc.js", "/assets/PageLayout-CRGnFUb0.js"]
 	},
 	"/projects": {
 		filePath: "/home/moloy-banerjee/Downloads/Research/src/routes/projects.tsx",
 		children: void 0,
-		preloads: ["/assets/projects-CEvcgGat.js", "/assets/PageLayout-ol-OLxM7.js"]
+		preloads: ["/assets/projects-QJc0Df2n.js", "/assets/PageLayout-CRGnFUb0.js"]
 	},
 	"/publications": {
 		filePath: "/home/moloy-banerjee/Downloads/Research/src/routes/publications.tsx",
 		children: void 0,
-		preloads: ["/assets/publications-DVzKRg3f.js", "/assets/PageLayout-ol-OLxM7.js"]
+		preloads: ["/assets/publications-Bo0djCSA.js", "/assets/PageLayout-CRGnFUb0.js"]
 	},
 	"/teaching": {
 		filePath: "/home/moloy-banerjee/Downloads/Research/src/routes/teaching.tsx",
 		children: void 0,
-		preloads: ["/assets/teaching-DvDOu-6q.js", "/assets/PageLayout-ol-OLxM7.js"]
+		preloads: ["/assets/teaching-DIbfZJHe.js", "/assets/PageLayout-CRGnFUb0.js"]
 	},
 	"/team": {
 		filePath: "/home/moloy-banerjee/Downloads/Research/src/routes/team.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/team-B7_m4r6M.js",
-			"/assets/PageLayout-ol-OLxM7.js",
+			"/assets/team-C45ND21P.js",
+			"/assets/PageLayout-CRGnFUb0.js",
 			"/assets/faculty-C5jN3CNl.js"
 		]
 	}

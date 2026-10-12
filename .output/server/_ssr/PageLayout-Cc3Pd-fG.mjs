@@ -1,6 +1,6 @@
 import { n as __toESM } from "../_runtime.mjs";
 import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
-import { h as Link } from "../_libs/@tanstack/react-router+[...].mjs";
+import { v as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { o as Linkedin, r as Menu, s as Facebook, t as X } from "../_libs/lucide-react.mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/PageLayout-Cc3Pd-fG.js
 var import_react = /* @__PURE__ */ __toESM(require_react());

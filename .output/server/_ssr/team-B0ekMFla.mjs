@@ -1,6 +1,6 @@
 import { n as __toESM } from "../_runtime.mjs";
 import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
-import { h as Link } from "../_libs/@tanstack/react-router+[...].mjs";
+import { v as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { n as PageLayout, t as PageHeader } from "./PageLayout-Cc3Pd-fG.mjs";
 import { t as faculty } from "./faculty-BvWr8swX.mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/team-B0ekMFla.js
