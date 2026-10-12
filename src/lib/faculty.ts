@@ -18,7 +18,7 @@ export const faculty = {
     "M.S. (Thesis; Physical Geography and Environment Stream), 2020, Department of Geography and Environment, University of Dhaka",
   ],
   interests: [
-    "Drone-based remote sensing and geospatial applications",
+    "Drone based remote sensing and geospatial applications",
     "Satellite-based remote sensing and geospatial applications",
     "Spatial and land-use planning",
     "Coastal geomorphology",

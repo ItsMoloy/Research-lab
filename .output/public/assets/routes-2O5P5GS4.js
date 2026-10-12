@@ -1,0 +1,1 @@
+import{n as e}from"./index-BWqCNiI0.js";import{n as t}from"./PageLayout-D7DavmXV.js";var n=e();function r(){return(0,n.jsx)(t,{children:(0,n.jsx)(`section`,{className:`relative flex min-h-[70vh] items-center justify-center bg-[#4F4F4F] text-white`,children:(0,n.jsx)(`h1`,{className:`font-serif text-5xl font-bold md:text-7xl`,children:`ATLAS Lab`})})})}export{r as component};

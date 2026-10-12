@@ -1,112 +1,101 @@
 import { Link } from "@tanstack/react-router";
-import { Facebook, Linkedin, Mail, Phone, MapPin } from "lucide-react";
+import { Facebook, Linkedin } from "lucide-react";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-24 bg-navy-deep text-parchment">
-      <div className="container-academic grid gap-10 py-14 md:grid-cols-4">
-        <div className="md:col-span-2">
-          <div className="font-serif text-xl font-bold">Geography and Environmental Engineering Lab</div>
-          <p className="mt-3 max-w-md text-sm leading-relaxed text-parchment/80">
-            Advancing remote sensing, GIS, and environmental monitoring for coastal,
-            agricultural, and wetland research in Bangladesh and beyond.
-          </p>
-          <div className="mt-5 space-y-2 text-sm text-parchment/85">
-            <div className="flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-accent" />
-              Department of Geography and Environment, Shahjalal University of Science and Technology, Sylhet, Bangladesh
-            </div>
-            <div className="flex items-center gap-2">
-              <Phone className="h-4 w-4 text-accent" />
-              <a href="tel:+880XXXXXXXXXX" className="hover:text-accent">
-                +880 XXXXXXXXXX
-              </a>
-            </div>
-            <div className="flex items-center gap-2">
-              <Mail className="h-4 w-4 text-accent" />
-              <a href="mailto:gee-lab@sust.edu" className="hover:text-accent">
-                gee-lab@sust.edu
-              </a>
-            </div>
+    <footer className="mt-10 bg-[#4F4F4F] text-white">
+      <div className="container-academic mx-auto px-4 py-8">
+        <div className="grid gap-8 text-[13px] md:grid-cols-12">
+          {/* Left Column - University Links */}
+          <div className="md:col-span-4">
+            <address className="not-italic">
+              <p>
+                <a href="https://www.sust.edu" className="block font-bold hover:text-[#B4AEA2] mb-1">
+                  SUST Faculty Websites
+                </a>
+                <span className="block mb-4">
+                  <a href="mailto:webmaster@sust.edu" className="font-bold hover:text-[#B4AEA2]">
+                    webmaster@sust.edu
+                  </a>
+                </span>
+                <a href="#" className="block font-bold hover:text-[#B4AEA2] mt-[10px]">
+                  Report ADA Accessibility Concerns
+                </a>
+                <a href="#" className="block font-bold hover:text-[#B4AEA2] mt-[10px]">
+                  Accessibility Statement
+                </a>
+                <a href="#" className="block font-bold hover:text-[#B4AEA2] mt-[10px]">
+                  Notice of Non-Discrimination
+                </a>
+                <a href="#" className="block font-bold hover:text-[#B4AEA2] mt-[10px]">
+                  Privacy Statement
+                </a>
+              </p>
+            </address>
           </div>
-        </div>
 
-        <div>
-          <div className="text-sm font-semibold uppercase tracking-wider text-accent">
-            Explore
-          </div>
-          <ul className="mt-4 space-y-2 text-sm">
-            {(
-              [
-                { to: "/team", label: "Team" },
-                { to: "/projects", label: "Projects" },
-                { to: "/publications", label: "Publications" },
-                { to: "/teaching", label: "Teaching" },
-                { to: "/news", label: "News" },
-              ] as const
-            ).map(({ to, label }) => (
-              <li key={to}>
-                <Link to={to} className="text-parchment/80 hover:text-accent">
-                  {label}
-                </Link>
+          {/* Center Column - Social Media */}
+          <div className="text-center md:col-span-4">
+            <p className="invisible">&nbsp;</p>
+            <ul className="flex justify-center gap-2 m-0 p-0 list-none">
+              <li>
+                <a
+                  href="https://facebook.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/20 hover:border-white hover:text-white transition-colors"
+                  aria-label="Facebook"
+                >
+                  <Facebook className="h-4 w-4" />
+                </a>
               </li>
-            ))}
-          </ul>
+              <li>
+                <a
+                  href="https://www.linkedin.com/in/md-mahin-uddin-8515a1180/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/20 hover:border-white hover:text-white transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="h-4 w-4" />
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Right Column - Lab Address */}
+          <div className="md:col-span-4 lg:text-left">
+            <section>
+              <p className="mb-3">
+                <strong>SUST ATLAS Laboratory</strong>
+              </p>
+              <p className="mb-3">
+                <strong>Phone Number</strong>: +880 XXXXXXXXXX
+              </p>
+              <p className="mb-3">
+                <strong>Email</strong>: atlas-lab@sust.edu
+              </p>
+              <p className="mb-0">
+                <strong>Address</strong>: Department of Geography and Environment, SUST, Sylhet, Bangladesh
+              </p>
+            </section>
+          </div>
         </div>
 
-        <div>
-          <div className="text-sm font-semibold uppercase tracking-wider text-accent">
-            Connect
-          </div>
-          <div className="mt-4 flex gap-3">
-            <a
-              href="https://facebook.com"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Facebook"
-              className="grid h-9 w-9 place-items-center rounded-md border border-parchment/20 text-parchment/80 hover:border-accent hover:text-accent"
-            >
-              <Facebook className="h-4 w-4" />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/md-mahin-uddin-8515a1180/"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="LinkedIn"
-              className="grid h-9 w-9 place-items-center rounded-md border border-parchment/20 text-parchment/80 hover:border-accent hover:text-accent"
-            >
-              <Linkedin className="h-4 w-4" />
-            </a>
-          </div>
-          <ul className="mt-6 space-y-2 text-xs text-parchment/70">
-            <li>
-              <a href="#" className="hover:text-accent">
-                Accessibility
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-accent">
-                Privacy Policy
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-accent">
-                Title IX
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div className="border-t border-white/10">
-        <div className="container-academic flex flex-col items-start justify-between gap-2 py-5 text-xs text-parchment/70 md:flex-row md:items-center">
-          <div>
-            © {new Date().getFullYear()} GEE Lab, Department of Geography and Environment, SUST.
-            All rights reserved.
-          </div>
-          <div>
-            Shahjalal University of Science and Technology · Sylhet, Bangladesh.
-          </div>
+        {/* Bottom Legal / Copyright */}
+        <div className="mt-8 border-t border-white/10 pt-6">
+          <section className="text-center text-xs font-normal">
+            <p className="mx-auto mb-[10px] max-w-4xl px-4 text-center">
+              The statements and opinions included on this site are those of the respective faculty and researchers only. Any statements and opinions included in these webpages are not those of Shahjalal University of Science and Technology.
+            </p>
+            <div className="text-center mt-4">
+              <p>
+                <small className="text-[12px]">
+                  Copyright © {new Date().getFullYear()} ATLAS Lab. All Rights Reserved.
+                </small>
+              </p>
+            </div>
+          </section>
         </div>
       </div>
     </footer>

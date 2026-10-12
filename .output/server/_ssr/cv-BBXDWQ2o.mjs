@@ -1,7 +1,7 @@
 import { n as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
-import { n as PageLayout, t as PageHeader } from "./PageLayout-BKaKzdnb.mjs";
+import { n as PageLayout, t as PageHeader } from "./PageLayout-1F0pdk-5.mjs";
 import { t as faculty } from "./faculty-Durkhe5t.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/cv-BBWElZhA.js
+//#region node_modules/.nitro/vite/services/ssr/assets/cv-BBXDWQ2o.js
 var import_jsx_runtime = require_jsx_runtime();
 function CvPage() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(PageLayout, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(PageHeader, {

@@ -22,23 +22,15 @@ export function PageHeader({
   description?: string;
 }) {
   return (
-    <section className="border-b border-border bg-secondary/60">
-      <div className="container-academic py-14 md:py-20">
-        {eyebrow && (
-          <div className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-accent-foreground/70">
-            {eyebrow}
-          </div>
-        )}
-        <h1 className="font-serif text-3xl font-bold text-primary md:text-5xl">
-          {title}
-        </h1>
-        {description && (
-          <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            {description}
-          </p>
-        )}
-        <div className="mt-6 h-1 w-16 bg-accent" />
-      </div>
+    <section className="relative flex min-h-[30vh] flex-col items-center justify-center bg-[#4F4F4F] text-white px-4 text-center">
+      <h1 className="font-serif text-5xl font-bold md:text-7xl">
+        {title}
+      </h1>
+      {description && (
+        <p className="mt-6 max-w-2xl text-lg opacity-90 md:text-xl">
+          {description}
+        </p>
+      )}
     </section>
   );
 }

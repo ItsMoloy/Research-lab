@@ -8,7 +8,8 @@ const navItems = [
   { to: "/projects", label: "Projects" },
   { to: "/equipment", label: "Equipment" },
   { to: "/publications", label: "Publications" },
-  { to: "/teaching", label: "Teaching" },
+  { to: "/teaching", label: "Training" },
+  { to: "/affiliates", label: "Affiliates" },
   { to: "/gallery", label: "Gallery" },
   { to: "/news", label: "News" },
   { to: "/contact", label: "Contact" },
@@ -19,32 +20,14 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
-      {/* University strip */}
-      <div className="bg-navy-deep text-parchment">
-        <div className="container-academic flex h-8 items-center justify-between text-xs tracking-wide">
-          <span className="opacity-90">SUST · Department of Geography and Environment</span>
-          <a
-            href="https://www.sust.edu"
-            className="opacity-80 hover:opacity-100"
-            target="_blank"
-            rel="noreferrer"
-          >
-            sust.edu
-          </a>
-        </div>
-      </div>
-
-      <div className="container-academic flex h-20 items-center justify-between gap-4">
-        <Link to="/" className="flex min-w-0 items-center gap-3">
-          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-primary text-primary-foreground shadow-sm">
-            <span className="font-serif text-lg font-bold">GEE</span>
+      <div className="container-academic flex h-12 items-center justify-between gap-4">
+        <Link to="/" className="flex min-w-0 items-center gap-2">
+          <div className="grid h-7 w-auto px-2 shrink-0 place-items-center rounded-sm bg-primary text-primary-foreground shadow-sm">
+            <span className="font-serif text-[12px] font-bold">ATLAS</span>
           </div>
           <div className="min-w-0 leading-tight">
-            <div className="truncate font-serif text-lg font-bold text-primary">
-              GEE Lab
-            </div>
-            <div className="truncate text-xs text-muted-foreground">
-              Geography and Environmental Engineering
+            <div className="truncate font-serif text-base font-bold text-primary">
+              ATLAS
             </div>
           </div>
         </Link>
@@ -54,10 +37,10 @@ export function SiteHeader() {
             <Link
               key={item.to}
               to={item.to}
-              className="rounded-md px-3 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-secondary hover:text-primary"
+              className="rounded-md px-3 py-1.5 text-sm font-medium text-foreground/80 transition-colors hover:bg-secondary hover:text-primary"
               activeProps={{
                 className:
-                  "rounded-md px-3 py-2 text-sm font-semibold text-primary bg-secondary",
+                  "rounded-md px-3 py-1.5 text-sm font-semibold text-primary bg-secondary",
               }}
               activeOptions={{ exact: item.to === "/" }}
             >

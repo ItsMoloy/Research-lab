@@ -1,6 +1,6 @@
 import { n as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
-import { n as PageLayout, t as PageHeader } from "./PageLayout-BKaKzdnb.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/teaching-D9D__1Sf.js
+import { n as PageLayout, t as PageHeader } from "./PageLayout-1F0pdk-5.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/teaching-B8hzF4xR.js
 var import_jsx_runtime = require_jsx_runtime();
 var courses = [
 	{
